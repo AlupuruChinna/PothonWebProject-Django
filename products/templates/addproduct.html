@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block 'content' %}
+
+    {% if error %}
+        <h3> {{ error }}</h3>
+    {% endif %}
+
+<div class="container">
+            <form class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="{% url 'addproduct' %}">
+                {% csrf_token %}
+                <h2 align="center"> ADD PRODUCTS HERE </h2>
+                <div class="form-group">
+                    <label for="firstName" class="col-sm-3 control-label">Product Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="firstName" placeholder="Product Name" class="form-control" autofocus name= "product_name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName" class="col-sm-3 control-label">Product Description</label>
+                    <div class="col-sm-9">
+                        <input type="textbox" id="lastName" placeholder="Say about your product" class="form-control" autofocus name= "product_desc">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">Product URL </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="email" placeholder="URL" class="form-control" name= "product_url">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product_image" class="col-sm-3 control-label">Product Image</label>
+                    <div class="col-sm-9">
+                        <input type="file" id="password" placeholder="Browse" class="form-control" name= "product_image">
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary btn-block"> Add </button>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+
+
+{% endblock %}

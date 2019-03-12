@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+
+{% block 'content' %}
+
+    {% load static %}
+
+
+    <script>
+        $(document).ready(function() {
+    $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+    $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+});
+
+    </script>
+    <link href="{% static 'iconic/iconic/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet" />
+    <head>
+        <style>
+
+
+            .glyphicon { margin-right:5px; }
+.thumbnail
+{
+    margin-bottom: 20px;
+    padding: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.item.list-group-item
+{
+    float: none;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
+{
+    background: #428bca;
+}
+
+.item.list-group-item .list-group-image
+{
+    margin-right: 10px;
+}
+.item.list-group-item .thumbnail
+{
+    margin-bottom: 0px;
+}
+.item.list-group-item .caption
+{
+    padding: 9px 9px 0px 9px;
+}
+.item.list-group-item:nth-of-type(odd)
+{
+    background: #eeeeee;
+}
+
+.item.list-group-item:before, .item.list-group-item:after
+{
+    display: table;
+    content: " ";
+}
+
+.item.list-group-item img
+{
+    float: left;
+}
+.item.list-group-item:after
+{
+    clear: both;
+}
+.list-group-item-text
+{
+    margin: 0 0 11px;
+}
+
+        </style>
+
+    </head>
+    <div class="container">
+    <div class="well well-sm">
+        <strong>Select Product</strong>
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
+        </div>
+    </div>
+    <div class="container">
+    {% for product in prod.all %}
+
+
+        <div id="products" class="row list-group">
+        <div class="item  col-xs-4 col-lg-4">
+            <div class="thumbnail">
+                <img class="group list-group-image" src=" {{ product.product_image.url }}" alt="" />
+                <div class="caption">
+                    <h4><a class="group inner list-group-item-heading" href=" {{ product.product_url }}">
+                        {{ product.product_name }}</a></h4>
+                    <p class="group inner list-group-item-text">
+                        {{ product.prodsumm }}
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p class="lead">
+                                $21.000</p>
+                        </div>
+
+                        <div class="col-xs-12 col-md-5">
+                            <a class="btn btn-success" href="{% url 'pdetails' product.id %}">Open</a>
+
+                        </div></div>
+                <a href="javascript:{document.getElementById('like {{ product.id }}').submit()}"><button class="btn btn-success">  <span class="oi oi-thumb-up"> Like {{ product.product_likes }}</span></button></a>
+                <a href="javascript:{document.getElementById('dislike {{ product.id }}').submit()}"><button class="btn btn-success"> <span class="oi oi-thumb-down"> DisLike {{ product.product_dislikes }}</span></button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <form id="like {{ product.id }}" action="{% url 'hitlike' product.id %}" method="post">
+        {% csrf_token %}
+            <input type="hidden" />
+        </form>
+
+        <form id="dislike {{ product.id }}" action="{% url 'hitdislike' product.id %}" method="post">
+        {% csrf_token %}
+            <input type="hidden" />
+        </form>
+{% endfor %}
+<hr width="50%" align="center">
+{% endblock %}
